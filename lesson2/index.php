@@ -11,11 +11,11 @@
 //task 2
 //$minute = $argv[1];
 //if ($minute >= 0 && $minute <= 60) {
-//    if ($minute <= 15) {
+//    if ($minute < 16) {
 //        print_r("Первая четверть часа");
-//    } else if ($minute > 15 && $minute <= 30) {
+//    } else if ($minute > 15 && $minute < 31) {
 //        print_r("Вторая четверть часа");
-//    } else if ($minute > 30 && $minute <= 45) {
+//    } else if ($minute > 30 && $minute < 46) {
 //        print_r("Третья четверть часа");
 //    } else {
 //        print_r("Четвертая четверть часа");
@@ -52,7 +52,7 @@
 //$day = rand(1, 31);
 //if ($day >= 1 && $day <= 10) {
 //    print_r("День " . $day . ": Первая декада");
-//} else if ($day >= 10 && $day <= 20) {
+//} else if ($day >= 11 && $day <= 20) {
 //    print_r("День " . $day . ": Вторая декада");
 //} else {
 //    print_r("День " . $day . ": Третья декада");
@@ -67,19 +67,15 @@
 //}
 //
 //task 7
-$year = $argv[1];
+$year = rand(0, 9999);
 if (is_numeric($year)) {
     if ($year <= 45) {
         $year % 3 == 0 ? print_r($year . " год високосный") : print_r($year . " год не високосный");
     } else {
-        if ($year % 4 == 0) {
-            if ($year % 100 == 0 && $year % 400 != 0) {
-                print_r($year . " год не високосный");
-            } else {
-                print_r($year . " год високосный");
-            }
-        } else {
+        if ((($year % 4 == 0) && ($year % 100 != 0)) || ($year % 400 == 0)){
             print_r($year . " год високосный");
+        } else {
+            print_r($year . " год не високосный");
         }
     }
 } else {

@@ -1,18 +1,34 @@
 <?php
 
-//Задание, магазин работает по будням с 9 - 21, по выходным не работает, ввести дату и определить сколько
-// времени осталось до открытия или закрытия или он вовсе не работает
+$currentTime = strtotime("3:24:04 8-10-2022");
+print_r(storeOpeningHours($currentTime));
 
-$currentTime = strtotime("10:24:04 9-10-2000");
-storeOpeningHours($currentTime);
-function storeOpeningHours($time){
-    if(date('l', $time) == "Saturday" || date('l', $time) == "Sunday"){
-        print_r("Магазин откроется в понедельник в 9 утра");
+function storeOpeningHours($time)
+{
+    $dateArray = getdate($time);
+
+    if ($dateArray["weekday"] == "Saturday" || $dateArray["weekday"] == "Sunday") {
+        $dateOpen = getdate(strtotime("next Monday", $time));
+        $dateArray["weekday"] == "Saturday" ? $timeToStoreOpen = 48 : $timeToStoreOpen = 24;
+        $hoursToOpen = $timeToStoreOpen - ($dateArray["hours"] - 8);
+        $minutesToOpen = 59 - $dateArray["minutes"];
+        $secondsToOpen = 60 - $dateArray["seconds"];
+        return "Store will open on {$dateOpen["weekday"]} {$dateOpen["mday"]}-{$dateOpen["mon"]}-{$dateOpen["year"]} at 9 am in {$hoursToOpen}:{$minutesToOpen}:{$secondsToOpen}";
+
+    } else if ($dateArray["hours"] < 9) {
+        $hoursToOpen = 8 - $dateArray["hours"];
+        $minutesToOpen = 59 - $dateArray["minutes"];
+        $secondsToOpen = 60 - $dateArray["seconds"];
+        return "Store will open today in {$hoursToOpen}:{$minutesToOpen}:{$secondsToOpen}";
+
+    } else if ($dateArray["hours"] > 21) {
+        $hoursAfterClosing = $dateArray["hours"] - 21;
+        return "Store closed {$hoursAfterClosing}:{$dateArray["minutes"]}:{$dateArray["seconds"]} ago";
+
     } else {
-        if(date("G", $time) > 9 && date("G", $time) < 21){
-            print_r("Магазин открыт.");
-        } else {
-            print_r("Магазин закрыт. Время работы с 9 до 21");
-        }
+        $hoursToClose = 20 - $dateArray["hours"];
+        $minutesToClose = 59 - $dateArray["minutes"];
+        $secondsToClose = 60 - $dateArray["seconds"];
+        return "Store is open. Closes in {$hoursToClose}:{$minutesToClose}:{$secondsToClose}";
     }
 }

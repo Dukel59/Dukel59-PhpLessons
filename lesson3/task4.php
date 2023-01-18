@@ -1,22 +1,17 @@
 <?php
-
-print_r(wordForms(rand(1, 9999), "стол", "стола", "столов"));
+$count = rand(1,9999);
+print_r("В наличии " . $count . " " . wordForms($count, "товар", "товара", "товаров"));
 function wordForms(string $count ,$firstForm, $secondForm, $thirdForm){
-    $countInFloat = $count * 0.1;
-    $fractionalPartOfOneDigit = bcsub($countInFloat, floor($countInFloat),1);
+    $remainderOfDivisionByOneHundred = $count % 100;
+    $remainderOfDivisionByTen = $count % 10;
 
-    $countInFloatWithTwoDigits = $count * 0.01;
-    $fractionalPartOfTwoDigit = bcsub($countInFloatWithTwoDigits, floor($countInFloatWithTwoDigits),2);
-
-    if($fractionalPartOfOneDigit == 0.1 && $fractionalPartOfTwoDigit != 0.11){
-        return $count . " " . $firstForm;
-    } else if($fractionalPartOfOneDigit > 0.1 && $fractionalPartOfOneDigit < 0.5){
-        if($fractionalPartOfTwoDigit != 0.12 && $fractionalPartOfTwoDigit != 0.13 && $fractionalPartOfTwoDigit != 0.14){
-            return $count . " " . $secondForm;
-        } else {
-            return $count . " " . $thirdForm;
-        }
+    if($remainderOfDivisionByOneHundred > 10 && $remainderOfDivisionByOneHundred < 20){
+        return $thirdForm;
+    } else if($remainderOfDivisionByTen > 1 && $remainderOfDivisionByTen < 5){
+        return $secondForm;
+    } else if($remainderOfDivisionByTen == 1){
+        return $firstForm;
     } else{
-        return $count . " " . $thirdForm;
+        return $thirdForm;
     }
 }

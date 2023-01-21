@@ -1,24 +1,25 @@
 <?php
 
-print_r(generatePassword(shouldContainsCapitalSymbol: true, shouldContainsSpecialSymbol: true));
 function generatePassword($length = 8, $shouldContainsCapitalSymbol = false, $shouldContainsSpecialSymbol = false)
 {
     $strPass = "";
+    $lowerSymbols = "abcdefghijklmnopqrstuvwxyz";
+    $specialSymbols = "!@#$%^&*()_-=+:;{}[]?/,.<>\\";
+    $capitalSymbols = strtoupper($lowerSymbols);
+
     for ($i = 0; $i < $length; $i++) {
-        $strPass .= chr(rand(97, 122));
+        $strPass .= $lowerSymbols[rand(0, strlen($lowerSymbols) - 1)];
     }
     if ($shouldContainsCapitalSymbol) {
-        $charRandomValues = [65, 90];
-        includesSomeSymbols($strPass, $charRandomValues);
+        includesSomeSymbols($strPass, $capitalSymbols);
     }
     if ($shouldContainsSpecialSymbol) {
-        $charRandomValues = [33, 64];
-        includesSomeSymbols($strPass, $charRandomValues);
+        includesSomeSymbols($strPass, $specialSymbols);
     }
     return $strPass;
 }
 
-function includesSomeSymbols(&$string, $charRandomValues)
+function includesSomeSymbols(&$string, $symbolsString)
 {
     $countCharReplace = rand(1, 3);
     for ($i = 0; $i < $countCharReplace; $i++) {
@@ -26,7 +27,7 @@ function includesSomeSymbols(&$string, $charRandomValues)
         if (!ctype_lower($string[$index])) {
             $i--;
         } else {
-            $string[$index] = chr(rand($charRandomValues[0], $charRandomValues[1]));
+            $string[$index] = $symbolsString[rand(0, strlen($symbolsString) - 1)];
         }
     }
 }

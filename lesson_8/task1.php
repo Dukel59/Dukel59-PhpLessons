@@ -8,7 +8,7 @@ foreach ($peoples as $line) {
 }
 
 $name = $_POST['name'];
-$fullName = $_POST['fullName'];
+$fullName = $_POST['fullName'] ?? null;
 $country = $_POST['country'];
 
 $searchPeoples = $data;
